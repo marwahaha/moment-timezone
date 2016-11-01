@@ -115,7 +115,6 @@
 			offsets = data[2].split(' '),
 			indices = data[3].split(''),
 			untils  = data[4].split(' '),
-			population = data[5],
 			countries = data[6];
 
 		arrayToInt(offsets);
@@ -124,15 +123,16 @@
 
 		intToUntil(untils, indices.length);
 
-		if (countries) {countries = countries.split(' ');}
-		if (population == ' ') {population = 0;}
+		if (countries) {
+			countries = countries.split(' ');
+		} else {countries = '';}
 
 		return {
 			name       : data[0],
 			abbrs      : mapIndices(data[1].split(' '), indices),
 			offsets    : mapIndices(offsets, indices),
 			untils     : untils,
-			population : population,
+			population : data[5] | 0,
 			countries  : countries
 		};
 	}
@@ -487,21 +487,24 @@
 
 	function addCountry (data) {
 		var i, name, split, normalized;
-
-		if (typeof data === "string") {
+		//check required because data could be undefined.
+		if (data) {
+			if (typeof data === "string") {
 			data = [data];
-		}
+			}
 
-		for (i = 0; i < data.length; i++) {
-			split = data[i].split('|');
-			name = split[0];
-			normalized = normalizeName(name);
-			countries[normalized] = data[i];
+			for (i = 0; i < data.length; i++) {
+				split = data[i].split('|');
+				name = split[0];
+				normalized = normalizeName(name);
+				countries[normalized] = data[i];
+			}
 		}
 	}
 
 	function getCountry (name, caller) {
 		name = normalizeName(name);
+
 		var country = countries[name];
 		var link;
 

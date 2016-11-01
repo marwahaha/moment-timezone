@@ -119,7 +119,7 @@
 
 	function packPopulation (number) {
 		if (!number) {
-			return ' ';
+			return '';
 		}
 		if (number < 1000) {
 			return number;
@@ -131,7 +131,7 @@
 
 	function packCountries (countries) {
 		if (!countries) {
-			return ' ';
+			return '';
 		}
 		return countries.join(' ');
 	}
